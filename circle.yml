@@ -20,4 +20,3 @@ deployment:
 notify:
   webhooks:
     - url: $WEBHOOK_URL
-
