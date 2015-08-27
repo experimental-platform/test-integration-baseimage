@@ -4,7 +4,7 @@ require 'erb'
 
 Vagrant.require_version ">= 1.6.0"
 
-hostname = "test-frontend"
+hostname = ENV.fetch('CIRCLE_PROJECT_REPONAME') + "-" + ENV.fetch('CIRCLE_BUILD_NUM')
 
 Vagrant.configure("2") do |config|
   config.vm.hostname = hostname
@@ -20,8 +20,8 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provider :digital_ocean do |provider, override|
     provider.user_data = ERB.new(IO.read('/cloud-config.yaml')).result
-    provider.name = ENV.fetch('HOSTNAME')
-    provider.ssh_key_name = 'CircleCI Integration Test: ' + ENV.fetch('HOSTNAME')
+    provider.name = hostname
+    provider.ssh_key_name = 'CircleCI Integration Test: ' + hostname
     provider.token = ENV.fetch('APIKEY')
     provider.image = ENV.fetch('IMAGE')
     provider.region = 'nyc2'
