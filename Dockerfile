@@ -21,5 +21,4 @@ RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - && \
 ADD initialize.sh /initialize.sh
 RUN chmod 755 /initialize.sh
 
-
 CMD [ "/bin/bash" ]
