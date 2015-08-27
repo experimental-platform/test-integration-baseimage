@@ -19,8 +19,7 @@ RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - && \
     rm -rf /var/lib/apt/lists/*
 
 ADD initialize.sh /initialize.sh
-ADD run_tests.sh /run_tests.sh
-RUN chmod 755 /initialize.sh /run_tests.sh
+RUN chmod 755 /initialize.sh
 
 
 CMD [ "/bin/bash" ]
