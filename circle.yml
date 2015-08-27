@@ -1,0 +1,23 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker build -t experimentalplatform/test-integration-baseimage:latest .
+
+test:
+  override:
+    - 'echo "TODO: INSERT TEST HERE"'
+
+deployment:
+  deploy:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push experimentalplatform/test-integration-baseimage:latest
+
+notify:
+  webhooks:
+    - url: $WEBHOOK_URL
+
