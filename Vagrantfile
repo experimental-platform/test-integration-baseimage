@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
     provider.name = hostname
     provider.ssh_key_name = 'CircleCI Integration Test: ' + hostname
     provider.token = ENV.fetch('APIKEY')
-    provider.image = ENV.fetch('IMAGE')
+    provider.image = ENV.fetch('IMAGE', 'coreos-beta')
     provider.region = 'nyc2'
     provider.size = '1gb'
     provider.check_guest_additions = false
