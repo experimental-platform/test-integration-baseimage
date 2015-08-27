@@ -18,9 +18,6 @@ RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g mocha
-RUN npm install
-
 ADD initialize.sh /initialize.sh
 ADD run_tests.sh /run_tests.sh
 RUN chmod 755 /initialize.sh /run_tests.sh
