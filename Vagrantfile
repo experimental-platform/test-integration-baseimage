@@ -6,6 +6,8 @@ Vagrant.require_version ">= 1.6.0"
 
 hostname = ENV.fetch('CIRCLE_PROJECT_REPONAME') + "-" + ENV.fetch('CIRCLE_BUILD_NUM')
 
+channel = ENV.fetch('IMAGE') == 'coreos-alpha'? 'alpha' : 'beta'
+
 Vagrant.configure("2") do |config|
   config.vm.hostname = hostname
   config.ssh.insert_key = false
@@ -14,7 +16,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', :disabled => true
   config.vm.box = 'digital_ocean'
   config.vm.box_version = ">= 308.0.1"
-  config.vm.box_url = 'http://beta.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json'
+  config.vm.box_url = 'http://' + channel + '.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json'
   # config.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   config.vm.define hostname do |foobar|
   end
@@ -23,7 +25,7 @@ Vagrant.configure("2") do |config|
     provider.name = hostname
     provider.ssh_key_name = 'CircleCI Integration Test: ' + hostname
     provider.token = ENV.fetch('APIKEY')
-    provider.image = ENV.fetch('IMAGE', 'coreos-beta')
+    provider.image = 'coreos-' + channel
     provider.region = 'nyc2'
     provider.size = '1gb'
     provider.check_guest_additions = false
