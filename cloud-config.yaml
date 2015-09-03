@@ -15,6 +15,18 @@ coreos:
   update:
     reboot-strategy: off
   units:
+# ExperimentalPlatform
+    - name: test-timezone-protonet.service
+      # command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Set the timezone
+
+        [Service]
+        RemainAfterExit=yes
+        Type=oneshot
+        ExecStart=/usr/bin/env timedatectl set-timezone Europe/Berlin
     - name: testing-config-skvs-protonet.service
       # command: start
       enable: true
