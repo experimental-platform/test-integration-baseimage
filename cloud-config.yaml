@@ -15,6 +15,18 @@ coreos:
   update:
     reboot-strategy: off
   units:
+# ExperimentalPlatform
+    - name: test-timezone-protonet.service
+      # command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Set the timezone
+
+        [Service]
+        RemainAfterExit=yes
+        Type=oneshot
+        ExecStart=/usr/bin/env timedatectl set-timezone Europe/Berlin
     - name: testing-config-skvs-protonet.service
       # command: start
       enable: true
@@ -44,9 +56,10 @@ coreos:
         [Service]
         Type=idle
         TimeoutStartSec=10
-        ExecStart=/bin/bash -c 'docker ps | grep dokku && /usr/bin/ncat -c "echo OKAY" -l -k  42423'
+        ExecStartPre=/bin/bash -c 'docker ps | grep dokku'
+        ExecStart='/usr/bin/ncat -c "echo OKAY" -l -k  42423'
         Restart=always
-        RestartSec=60s
+        RestartSec=30s
 
         [Install]
         WantedBy=multi-user.target
