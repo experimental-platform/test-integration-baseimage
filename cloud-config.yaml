@@ -44,9 +44,10 @@ coreos:
         [Service]
         Type=idle
         TimeoutStartSec=10
-        ExecStart=/bin/bash -c 'docker ps | grep dokku && /usr/bin/ncat -c "echo OKAY" -l -k  42423'
+        ExecStartPre=/bin/bash -c 'docker ps | grep dokku'
+        ExecStart='/usr/bin/ncat -c "echo OKAY" -l -k  42423'
         Restart=always
-        RestartSec=60s
+        RestartSec=30s
 
         [Install]
         WantedBy=multi-user.target
