@@ -35,12 +35,8 @@ while true ; do
     COUNTER=$((COUNTER + 1))
     sleep ${SLEEPTIME}
     HOSTIP=$(vagrant ssh-config | awk '/HostName/ {print $2}')
-    echo -en "\n\n$(date)\t(${COUNTER})Waiting for connection to ${HOSTIP} "
-    nc $HOSTIP 42423 2>/dev/null | grep "OKAY" >/dev/null 2>&1 | true
-    if [[ ${PIPESTATUS[1]} -eq 0 ]]; then
-        echo -e "\n\n$(date)\tDROPLET STATUS IS OKAY\n\n"
-        break
-    fi
+    echo -en "\n\n$(date)\t(${COUNTER})Waiting for connection to ${HOSTIP} Port 8022 "
+    nc $HOSTIP 8022 && break
     if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
         echo -e "\n\n\n\n$(date)\tERROR CONNECTION TIMEOUT...\n\n\n\n"
         vagrant ssh -- sudo journalctl
