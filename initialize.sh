@@ -43,7 +43,6 @@ while true ; do
     fi
     if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
         echo -e "\n\n\n\n$(date)\tERROR CONNECTION TIMEOUT...\n\n\n\n"
-        vagrant ssh -- sudo journalctl
         exit 23
     fi
     echo -n '.'
