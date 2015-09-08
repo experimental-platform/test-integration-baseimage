@@ -2,7 +2,7 @@
 
 users:
   - name: root
-    passwd: $1$C3IPO/Q4$rh9psb.DS/2exW4mXaek50
+    passwd: $6$0f1Xl822UWa2sxRC$08OPTYpq5.8Cfc1Xm3LwcfraZrsDaUP.V5285VmhPdwSsfSw4VRBSY27qoofXLFMl4Uc0GvDJjlvH8IDYPeca0
     groups:
       - sudo
       - docker
@@ -16,17 +16,6 @@ coreos:
     reboot-strategy: off
   units:
 # ExperimentalPlatform
-    - name: test-timezone-protonet.service
-      # command: start
-      enable: true
-      content: |
-        [Unit]
-        Description=Set the timezone
-
-        [Service]
-        RemainAfterExit=yes
-        Type=oneshot
-        ExecStart=/usr/bin/env timedatectl set-timezone Europe/Berlin
     - name: testing-config-skvs-protonet.service
       # command: start
       enable: true
@@ -44,25 +33,3 @@ coreos:
 
         [Install]
         WantedBy=multi-user.target
-    - name: testing-all-clear-signal-protonet.service
-      # command: start
-      enable: true
-      content: |
-        [Unit]
-        Description=Send an all clear signal
-        After=testing-config-skvs-protonet.service dokku-protonet.service
-        Requires=testing-config-skvs-protonet.service dokku-protonet.service
-
-        [Service]
-        Type=idle
-        TimeoutStartSec=10
-        ExecStartPre=/bin/bash -c 'docker ps | grep dokku'
-        ExecStart='/usr/bin/ncat -c "echo OKAY" -l -k  42423'
-        Restart=always
-        RestartSec=30s
-
-        [Install]
-        WantedBy=multi-user.target
-
-
-
