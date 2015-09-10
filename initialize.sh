@@ -43,5 +43,6 @@ while true ; do
     fi
     if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
         echo -e "\n\n\n\n$(date)\tCONNECTION TIMEOUT... let's continue anyway...\n\n\n\n"
+        break
     fi
 done
