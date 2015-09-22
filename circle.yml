@@ -20,7 +20,7 @@ deployment:
         for testname in dockerfile frontend nodejs php python rails ; do
           curl -f --header "Content-Type: application/json" \
           --data "{\"build_parameters\": {\"TRIGGER\": true}}" --request POST \
-          "https://circleci.com/api/v1/project/experimental-platform/test-integration-${testname}/tree/development?circle-token=${!testname}"
+          "https://circleci.com/api/v1/project/experimental-platform/test-integration-${testname}/tree/master?circle-token=${!testname}"
         done
 
 notify:
