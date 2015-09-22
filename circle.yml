@@ -18,9 +18,10 @@ deployment:
       - docker push experimentalplatform/test-integration-baseimage:latest
       - |
         for test in dockerfile frontend nodejs php python rails ; do
-            curl -f --header "Content-Type: application/json" \
-            --data "{\"build_parameters\": {\"TRIGGER\": true}}" --request POST \
-            "https://circleci.com/api/v1/project/experimental-platform/test-integration-${test}/tree/development?circle-token=${!${test}_key}"
+          testkey=${test}_key
+          curl -f --header "Content-Type: application/json" \
+          --data "{\"build_parameters\": {\"TRIGGER\": true}}" --request POST \
+          "https://circleci.com/api/v1/project/experimental-platform/test-integration-${test}/tree/development?circle-token=${!testkey}"
         done
 
 notify:
