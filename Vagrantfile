@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     provider.token = ENV.fetch('APIKEY')
     provider.image = 'coreos-' + channel
     provider.region = 'nyc2'
-    provider.size = '1gb'
+    provider.size = '2gb'
     provider.check_guest_additions = false
     provider.functional_vboxsf = false
   end

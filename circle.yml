@@ -16,6 +16,12 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push experimentalplatform/test-integration-baseimage:latest
+      - |
+        for test in dockerfile frontend nodejs php python rails ; do
+            curl -f --header "Content-Type: application/json" \
+            --data "{\"build_parameters\": {\"TRIGGER\": true}}" --request POST \
+            "https://circleci.com/api/v1/project/experimental-platform/test-integration-${test}/tree/development?circle-token=${!${test}_key}"
+        done
 
 notify:
   webhooks:
