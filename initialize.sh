@@ -11,7 +11,7 @@ CHANNEL=${CHANNEL:=development}
 i=0
 while true; do
     echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
-    VAGRANT_RESULT=$(vagrant up)
+    VAGRANT_RESULT=$(vagrant up --provider=aws)
     echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
 
     CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh"
