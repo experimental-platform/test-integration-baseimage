@@ -4,8 +4,8 @@ RUN apt-get -y update && apt-get -y install openssh-client && rm -rf /var/lib/ap
 
 RUN FILE=$(mktemp); curl -L https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb > $FILE && dpkg -i $FILE; rm $FILE
 
-RUN vagrant plugin install vagrant-digitalocean
-RUN vagrant box add digital_ocean https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box
+RUN vagrant plugin install vagrant-aws
+RUN vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
 ADD Vagrantfile /Vagrantfile
 ADD cloud-config.yaml /cloud-config.yaml

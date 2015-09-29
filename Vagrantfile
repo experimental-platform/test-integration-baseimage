@@ -6,29 +6,29 @@ Vagrant.require_version ">= 1.6.0"
 
 hostname = ENV.fetch('CIRCLE_PROJECT_REPONAME') + "-" + ENV.fetch('CIRCLE_BUILD_NUM')
 
-channel = ENV.fetch('IMAGE') == 'coreos-alpha'? 'alpha' : 'beta'
+#channel = ENV.fetch('IMAGE') == 'coreos-alpha'? 'alpha' : 'beta'
+# TODO retrieve AMI based on CoreOS channel and AWS region
+ami = 'ami-854b8ec1'
 
 Vagrant.configure("2") do |config|
   config.vm.hostname = hostname
   config.ssh.insert_key = false
   config.ssh.username = false
-  config.ssh.private_key_path = '/.ssh/id_rsa'
   config.vm.synced_folder '.', '/vagrant', :disabled => true
-  config.vm.box = 'digital_ocean'
-  config.vm.box_version = ">= 308.0.1"
-  config.vm.box_url = 'http://' + channel + '.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json'
-  # config.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+  config.vm.box = 'dummy'
   config.vm.define hostname do |foobar|
   end
-  config.vm.provider :digital_ocean do |provider, override|
-    provider.user_data = ERB.new(IO.read('/cloud-config.yaml')).result
-    provider.name = hostname
-    provider.ssh_key_name = 'CircleCI Integration Test: ' + hostname
-    provider.token = ENV.fetch('APIKEY')
-    provider.image = 'coreos-' + channel
-    provider.region = 'nyc2'
-    provider.size = '2gb'
-    provider.check_guest_additions = false
-    provider.functional_vboxsf = false
+  config.vm.provider :aws do |aws, override|
+    aws.user_data = ERB.new(IO.read('/cloud-config.yaml')).result
+    aws.access_key_id = ENV.fetch('AWS_ACCESS_KEY_ID')
+    aws.secret_access_key = ENV.fetch('AWS_SECRET_ACCESS_KEY')
+    aws.security_groups = ['sg-900a4cf5'] # SSH ingress security group
+    aws.instance_type = 't2.micro'
+    aws.associate_public_ip = true
+    aws.ami = ami
+    aws.region = 'us-west-1'
+    aws.subnet_id = 'subnet-f99549a0'
+    override.ssh.username = "core"
+    override.ssh.private_key_path = "/.ssh/id_rsa"
   end
 end
