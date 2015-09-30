@@ -5,6 +5,7 @@ RUN apt-get -y update && apt-get -y install openssh-client && rm -rf /var/lib/ap
 RUN FILE=$(mktemp); curl -L https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb > $FILE && dpkg -i $FILE; rm $FILE
 
 RUN vagrant plugin install vagrant-aws
+RUN vagrant plugin install aws-sdk
 RUN vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 
 ADD Vagrantfile /Vagrantfile
