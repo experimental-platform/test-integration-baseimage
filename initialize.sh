@@ -14,7 +14,7 @@ while true; do
     VAGRANT_RESULT=$(vagrant up --provider=aws)
     echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
 
-    CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh --reboot | sudo CHANNEL=${CHANNEL} sh"
+    CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} PLATFORM_INSTALL_REBOOT=true sh"
     vagrant ssh -c "${CMDLINE}" && echo -e "\n\nINSTALLATION SUCCESSFUL!\n" && break || echo -e "\n\nERROR status: $?\n"
     if [[ ${i} -gt 5 ]]; then
         echo -e "\n\n\nERROR: Couldn't install test platform.\n"
