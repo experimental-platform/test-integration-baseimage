@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   override:
-    - docker build -t experimentalplatform/test-integration-baseimage:latest .
+    - docker build -t experimentalplatform/test-integration-baseimage:aws .
 
 test:
   override:
@@ -12,15 +12,15 @@ test:
 
 deployment:
   deploy:
-    branch: master
+    branch: aws
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push experimentalplatform/test-integration-baseimage:latest
+      - docker push experimentalplatform/test-integration-baseimage:aws
       - |
         for testname in dockerfile frontend nodejs php python rails ; do
           curl -f --header "Content-Type: application/json" \
           --data "{\"build_parameters\": {\"TRIGGER\": true}}" --request POST \
-          "https://circleci.com/api/v1/project/experimental-platform/test-integration-${testname}/tree/master?circle-token=${!testname}"
+          "https://circleci.com/api/v1/project/experimental-platform/test-integration-${testname}/tree/aws?circle-token=${!testname}"
         done
 
 notify:
