@@ -23,6 +23,7 @@ Vagrant.configure("2") do |config|
     aws.access_key_id = ENV.fetch('AWS_ACCESS_KEY_ID')
     aws.secret_access_key = ENV.fetch('AWS_SECRET_ACCESS_KEY')
     aws.security_groups = ['sg-900a4cf5', 'sg-435b1d26'] # SSH ingress security group
+    aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 25 }]
     aws.instance_type = 't2.micro'
     aws.associate_public_ip = true
     aws.ami = ami
