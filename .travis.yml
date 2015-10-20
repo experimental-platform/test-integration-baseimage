@@ -9,7 +9,12 @@ script:
       docker push experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH
 
       for testname in dockerfile frontend nodejs php python rails; do
-        BODY="{ \"request\": {\"TRIGGER\":\"true\", \"message\": \"Triggered by '$TRAVIS_REPO_SLUG'\"}}"
+			  BODY="{ \"request\": {
+          \"message\": \"Triggered by '$TRAVIS_REPO_SLUG'\",
+          \"config\": {
+            \"env\": {
+              \"TRIGGER\": \"true\"
+        }}}}"
         echo "URL: https://api.travis-ci.org/repo/travis-ci%2Ftravis-core/requests"
         echo "BODY: $BODY"
         curl -f -s -X POST \
