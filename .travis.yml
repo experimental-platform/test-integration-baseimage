@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+script:
+  - docker build --force-rm --no-cache --pull -t experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH .
+  - >
+    if [[ ${TRAVIS_BRANCH} == "master" ]]; then
+      docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      docker push experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH
+
+      for testname in dockerfile frontend nodejs php python rails; do
+        BODY='{ "request": {"TRIGGER":"true"}}'
+        echo "URL: https://api.travis-ci.org/repo/travis-ci%2Ftravis-core/requests"
+        echo "BODY: $BODY"
+        curl -f -s -X POST \
+          -H "Content-Type: application/json" \
+          -H "Accept: application/json" \
+          -H "Travis-API-Version: 3" \
+          -H "Authorization: token $TRAVIS_TOKEN" \
+          -d "$BODY" \
+          https://api.travis-ci.org/repo/experimental-platform%2Ftest-integration-${project}/requests
+      done
+    fi
