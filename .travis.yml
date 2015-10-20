@@ -15,7 +15,8 @@ script:
             \"env\": {
               \"TRIGGER\": \"true\"
         }}}}"
-        echo "URL: https://api.travis-ci.org/repo/travis-ci%2Ftravis-core/requests"
+        URL="https://api.travis-ci.org/repo/experimental-platform%2Ftest-integration-${testname}/requests"
+        echo "URL: $URL"
         echo "BODY: $BODY"
         curl -f -s -X POST \
           -H "Content-Type: application/json" \
@@ -23,6 +24,6 @@ script:
           -H "Travis-API-Version: 3" \
           -H "Authorization: token $TRAVIS_TOKEN" \
           -d "$BODY" \
-          https://api.travis-ci.org/repo/experimental-platform%2Ftest-integration-${project}/requests
+          $URL
       done
     fi
