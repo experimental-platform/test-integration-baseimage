@@ -16,7 +16,7 @@ while true; do
 
     CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} PLATFORM_INSTALL_REBOOT=true sh"
     vagrant ssh -c "${CMDLINE}" && echo -e "\n\nINSTALLATION SUCCESSFUL!\n" && break || echo -e "\n\nERROR status: $?\n"
-    if [[ ${i} -gt 5 ]]; then
+    if [[ ${i} -gt 3 ]]; then
         echo -e "\n\n\nERROR: Couldn't install test platform.\n"
         exit 42
     fi
@@ -27,7 +27,7 @@ while true; do
     sleep 15
     echo -e " trying again."
     vagrant destroy -f
-    sleep 30
+    sleep 5
 done
 
 COUNTER=0
