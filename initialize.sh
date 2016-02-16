@@ -25,7 +25,7 @@ while true; do
     # TODO: re-enable after debug session # vagrant ssh -c "journalctl -x" || true
     echo -e "\n\n\nERROR DURING THE INSTALLATION OF PLATFORM CHANNEL ${CHANNEL} (${i}. time).\n"
     vagrant destroy -f
-    echo -ne "Sleeping 15 seconds..."
+    echo -ne "Sleeping 10 seconds..."
     sleep 10
     echo -e " trying again."
 done
