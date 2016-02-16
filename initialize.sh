@@ -8,7 +8,7 @@ SLEEPTIME=2
 
 CHANNEL=${CHANNEL:=development}
 
-i=0
+i=1
 while true; do
     echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
     VAGRANT_RESULT=$(vagrant up --provider=aws)
@@ -16,18 +16,18 @@ while true; do
 
     CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} PLATFORM_INSTALL_REBOOT=true sh"
     vagrant ssh -c "${CMDLINE}" && echo -e "\n\nINSTALLATION SUCCESSFUL!\n" && break || echo -e "\n\nERROR status: $?\n"
-    if [[ ${i} -gt 3 ]]; then
+    # try this only twice, more will timeout and forcefully quit by travis, which leaves running AWS instances behind.
+    if [[ ${i} -gt 2 ]]; then
         echo -e "\n\n\nERROR: Couldn't install test platform.\n"
         exit 42
     fi
     i=$[$i+1]
     # TODO: re-enable after debug session # vagrant ssh -c "journalctl -x" || true
     echo -e "\n\n\nERROR DURING THE INSTALLATION OF PLATFORM CHANNEL ${CHANNEL} (${i}. time).\n"
-    echo -ne "Sleeping 15 seconds..."
-    sleep 15
-    echo -e " trying again."
     vagrant destroy -f
-    sleep 5
+    echo -ne "Sleeping 15 seconds..."
+    sleep 10
+    echo -e " trying again."
 done
 
 COUNTER=0
