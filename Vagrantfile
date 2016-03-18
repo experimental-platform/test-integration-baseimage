@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
     aws.instance_type = 't2.small'
     aws.associate_public_ip = true
     aws.ami = ami
-    aws.tags = {:Name => hostname}
+    aws.tags = {:Name => hostname, :Test => "true"}
     aws.region = 'us-west-2'
     aws.subnet_id = 'subnet-849f0add'
     override.ssh.username = "root"
