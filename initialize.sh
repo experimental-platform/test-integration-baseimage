@@ -8,6 +8,8 @@ SLEEPTIME=2
 
 CHANNEL=${CHANNEL:=development}
 
+trap "vagrant destroy -f" SIGINT SIGTERM EXIT
+
 i=1
 while true; do
     echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
