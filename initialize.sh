@@ -21,6 +21,7 @@ while true; do
     # try this only twice, more will timeout and forcefully quit by travis, which leaves running AWS instances behind.
     if [[ ${i} -gt 2 ]]; then
         echo -e "\n\n\nERROR: Couldn't install test platform.\n"
+        vagrant destroy -f
         exit 42
     fi
     i=$[$i+1]
