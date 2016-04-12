@@ -8,12 +8,11 @@ SLEEPTIME=2
 
 CHANNEL=${CHANNEL:=development}
 
-trap "vagrant destroy -f" SIGINT SIGTERM EXIT
-
 i=1
 while true; do
     echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
     VAGRANT_RESULT=$(vagrant up --provider=aws)
+    trap "vagrant destroy -f" SIGINT SIGTERM EXIT
     echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
 
     CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} PLATFORM_INSTALL_REBOOT=true sh"
@@ -49,3 +48,6 @@ while true ; do
         break
     fi
 done
+
+trap - SIGINT SIGTERM EXIT
+
