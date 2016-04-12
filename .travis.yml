@@ -4,10 +4,10 @@ services:
 script:
   - docker build --force-rm --no-cache --pull -t experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH .
   - >
-    if [[ ${TRAVIS_BRANCH} == "master" ]]; then
-      docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      docker push experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH
+    docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    docker push experimentalplatform/test-integration-baseimage:$TRAVIS_BRANCH
 
+    if [[ ${TRAVIS_BRANCH} == "latest" ]]; then
       for testname in dockerfile frontend nodejs php python rails; do
         BODY="{ \"request\": {
           \"message\": \"Triggered by '$TRAVIS_REPO_SLUG'\",
